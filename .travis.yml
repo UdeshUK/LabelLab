@@ -4,6 +4,7 @@ node_js:
 before_script: 
   - cd backend
   - npm install -g eslint
+  - npm install
 script:
   - "npm run lint"
 branches:
