@@ -1,1 +1,1 @@
-const BASE_URL = "http://labellab.herokuapp.com";
+const BASE_URL = "https://labellab-mobile.herokuapp.com";
