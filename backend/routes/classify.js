@@ -3,8 +3,12 @@ var router = express.Router();
 
 router.get('/', function (req, res, next) {
   res.send({
-    api: 'classify',
-    serverTime: Date.now().toString,
+    title: 'labellab',
+    route: "/classify",
+    description: "Classification API",
+    endpoints: [
+      { route: "/image", description: "Label a given image usign classification model." }
+    ]
   });
 });
 
