@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - 11.9.0
-before_script: cd backend
+before_script: 
+  - cd backend
+  - npm install -g eslint
 script:
   - "npm run lint"
 branches:
