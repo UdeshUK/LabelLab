@@ -3,7 +3,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fileUpload = require('express-fileupload');
 
-var config = require('./app.config')
+var config = require('../app.config')
 var indexRouter = require('./routes/index');
 var classifyRouter = require('./routes/classify');
 
