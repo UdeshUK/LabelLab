@@ -3,6 +3,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fileUpload = require('express-fileupload');
 
+var config = require('./app.config')
 var indexRouter = require('./routes/index');
 var classifyRouter = require('./routes/classify');
 
@@ -14,8 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(fileUpload());
 
-// Removed redundent root api endpoint
-// app.use('/', indexRouter);
+app.use('/', indexRouter);
 app.use('/classify', classifyRouter);
 
 app.set('port', process.env.PORT || 3000);
