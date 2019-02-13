@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - 11.9.0
+before_script: cd backend
+script:
+  - "npm run lint"
+branches:
+  only:
+  - master
+deploy:
+  provider: heroku
+  api_key:
+    secure: ccb2a4c0-747d-4788-823e-d4363d0133ef
+  app: labellab-mobile
+  on:
+    repo: UdeshUK/LabelLab
