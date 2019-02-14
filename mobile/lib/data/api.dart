@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -6,7 +5,7 @@ import 'package:mobile/data/config.dart';
 import 'package:uuid/uuid.dart';
 
 class API {
-  static const API_CLASSIFY = BASE_URL + "/save-image";
+  static const API_CLASSIFY = BASE_URL + "/classify/image";
 
   final Dio _dio;
 
@@ -14,7 +13,7 @@ class API {
     final String uuid = Uuid().v1();
 
     FormData formData = new FormData.from({
-      "sampleFile": new UploadFileInfo(image, uuid),
+      "image": new UploadFileInfo(image, uuid),
     });
     return _dio.post(API_CLASSIFY, data: formData);
   }
