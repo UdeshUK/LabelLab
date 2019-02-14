@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/data/api.dart';
 import 'package:mobile/widgets/loading_progress.dart';
+import 'package:mobile/widgets/selected_image.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -27,21 +28,9 @@ class HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
-                height: 16,
-              ),
-              _image != null
-                  ? Image(
-                      image: FileImage(_image),
-                      width: 240,
-                      height: 240,
-                    )
-                  : Container(
-                      width: 240,
-                      height: 240,
-                    ),
-              SizedBox(
-                height: 16,
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: SelectedImage(image: _image,),
               ),
               _image == null
                   ? Row(
