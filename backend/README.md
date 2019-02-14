@@ -28,4 +28,4 @@ framework. And a [backend](https://github.com/UdeshUK/LabelLab/tree/master/backe
       npm run start
       ```
 
-Currently this is deployed on [GCP]().
+Currently this is deployed [here](https://labellab-mobile.herokuapp.com/).

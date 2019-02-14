@@ -1,5 +1,7 @@
 # LabelLab
 
+[![Build Status](https://travis-ci.org/UdeshUK/LabelLab.svg?branch=master)](https://travis-ci.org/UdeshUK/LabelLab)
+
 Machine learning supported web-base image labelling tool for researcher. 
 
 ## Getting Started
