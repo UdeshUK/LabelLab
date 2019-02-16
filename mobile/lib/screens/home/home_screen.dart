@@ -129,14 +129,15 @@ class HomeScreenState extends State<HomeScreen> {
       mini: true,
       backgroundColor: Colors.white,
       elevation: 1,
-      onPressed: () => _showImagePicker(ImageSource.camera),
+      onPressed: () => _showImagePicker(ImageSource.gallery),
     );
   }
 
   void _showImagePicker(ImageSource source) {
     ImagePicker.pickImage(source: source).then((image) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ClassifyScreen(image)));
+      if (image != null)
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ClassifyScreen(image)));
     }).catchError((err) => print(err));
   }
 }
