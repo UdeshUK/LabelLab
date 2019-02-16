@@ -5,7 +5,8 @@ import 'package:mobile/data/config.dart';
 import 'package:uuid/uuid.dart';
 
 class API {
-  static const API_CLASSIFY = BASE_URL + "/classify/image";
+  // static const API_CLASSIFY = BASE_URL + "/classify/image";
+  static const API_CLASSIFY = BASE_URL + "/upload";
 
   final Dio _dio;
 
