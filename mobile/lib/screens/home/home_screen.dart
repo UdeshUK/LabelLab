@@ -1,81 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile/bloc/bloc_provider.dart';
 import 'package:mobile/screens/classify/classify_screen.dart';
+import 'package:mobile/screens/home/history_sliver_delegate.dart';
+import 'package:mobile/screens/home/home_bloc.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  HomeScreenState createState() => HomeScreenState();
-}
+class HomeScreen extends StatelessWidget {
+  final HomeBloc _bloc;
 
-class HomeScreenState extends State<HomeScreen> {
+  HomeScreen() : _bloc = HomeBloc();
+
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-      headerSliverBuilder: (context, _) {
-        return <Widget>[
-          SliverAppBar(
-            elevation: 2,
-            forceElevated: true,
-            centerTitle: true,
-            title: Text(
-              'LabelLab',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            backgroundColor: Colors.blue[400],
-            expandedHeight: 420.0,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                children: <Widget>[
-                  _buildToolbarBackground(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 48,
-                          ),
-                          Text(
-                            "Choose an image to classify",
-                            style: TextStyle(color: Colors.white, shadows: [
-                              Shadow(
-                                  color: Colors.black54,
-                                  offset: Offset(0.3, 0.8),
-                                  blurRadius: 1.5)
-                            ]),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          _builtCameraButton(),
-                          SizedBox(height: 16),
-                          _buildGalleryButton(),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            pinned: true,
-          ),
-        ];
-      },
-      body: Container(
+    return BlocProvider(
+      bloc: _bloc,
+      child: Container(
         color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Card(
-              margin: EdgeInsets.all(0),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-              child: ListTile(
-                title: Text("History"),
-                subtitle: Text("Most recent classifications"),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              elevation: 2,
+              forceElevated: true,
+              centerTitle: true,
+              title: Text(
+                'LabelLab',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
-            )
+              backgroundColor: Colors.blue[400],
+              expandedHeight: 420.0,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
+                  children: <Widget>[
+                    _buildToolbarBackground(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 48,
+                            ),
+                            Text(
+                              "Choose an image to classify",
+                              style: TextStyle(color: Colors.white, shadows: [
+                                Shadow(
+                                    color: Colors.black54,
+                                    offset: Offset(0.3, 0.8),
+                                    blurRadius: 1.5)
+                              ]),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            _builtCameraButton(context),
+                            SizedBox(height: 16),
+                            _buildGalleryButton(context),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              pinned: true,
+            ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: HistorySliverDelegate(
+                minHeight: 72.0,
+                maxHeight: 72.0,
+                child: Card(
+                  margin: EdgeInsets.all(0),
+                  shape:
+                      RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                  child: ListTile(
+                    title: Text("History"),
+                    subtitle: Text("Most recent classifications"),
+                  ),
+                ),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Card(
+                  margin: EdgeInsets.all(0),
+                  shape:
+                      RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                  child: ListTile(
+                    title: Text("Dummy Item"),
+                    dense: true,
+                  ),
+                ),
+              ]),
+            ),
           ],
         ),
       ),
@@ -101,8 +121,9 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _builtCameraButton() {
+  Widget _builtCameraButton(BuildContext context) {
     return Card(
+      clipBehavior: Clip.antiAlias,
       shape: CircleBorder(),
       child: InkWell(
         child: Padding(
@@ -114,13 +135,13 @@ class HomeScreenState extends State<HomeScreen> {
           ),
         ),
         onTap: () {
-          _showImagePicker(ImageSource.camera);
+          _showImagePicker(context, ImageSource.camera);
         },
       ),
     );
   }
 
-  Widget _buildGalleryButton() {
+  Widget _buildGalleryButton(BuildContext context) {
     return FloatingActionButton(
       child: Icon(
         Icons.photo_library,
@@ -129,11 +150,11 @@ class HomeScreenState extends State<HomeScreen> {
       mini: true,
       backgroundColor: Colors.white,
       elevation: 1,
-      onPressed: () => _showImagePicker(ImageSource.gallery),
+      onPressed: () => _showImagePicker(context, ImageSource.gallery),
     );
   }
 
-  void _showImagePicker(ImageSource source) {
+  void _showImagePicker(BuildContext context, ImageSource source) {
     ImagePicker.pickImage(source: source).then((image) {
       if (image != null)
         Navigator.of(context).push(
