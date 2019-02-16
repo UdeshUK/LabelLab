@@ -79,7 +79,11 @@ class ClassifyScreen extends StatelessWidget {
                     ],
                   );
                 } else {
-                  return _buildClassifyButton(context);
+                  return Column(
+                    children: <Widget>[
+                      _buildClassifyButton(context),
+                    ],
+                  );
                 }
               },
             ),
@@ -120,19 +124,36 @@ class ClassifyScreen extends StatelessWidget {
   }
 
   Widget _buildResult(Classification result) {
-    double kBytes = result.size / (1024.0);
+    // double kBytes = result.size / (1024.0);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
         margin: EdgeInsets.all(0),
-        child: ListTile(
-          title: Text("Size"),
-          subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
-          dense: true,
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text("Height"),
+              // subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
+              subtitle: Text(result.height.toString()),
+              dense: true,
+            ),
+            ListTile(
+              title: Text("Width"),
+              // subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
+              subtitle: Text(result.width.toString()),
+              dense: true,
+            ),
+            ListTile(
+              title: Text("Type"),
+              // subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
+              subtitle: Text(result.type.toString()),
+              dense: true,
+            ),
+          ],
         ),
       ),
     );
