@@ -20,10 +20,10 @@ class HomeScreenState extends State<HomeScreen> {
             title: Text(
               'LabelLab',
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
-            backgroundColor: Theme.of(context).canvasColor,
+            backgroundColor: Colors.blue[400],
             expandedHeight: 420.0,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
@@ -36,10 +36,10 @@ class HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
-                            height: 36,
+                            height: 48,
                           ),
                           Text(
-                            "Select image to classify",
+                            "Choose an image to classify",
                             style: TextStyle(color: Colors.white, shadows: [
                               Shadow(
                                   color: Colors.black54,
@@ -84,7 +84,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   Widget _buildToolbarBackground() {
     return Opacity(
-      opacity: 0.5,
+      opacity: 0.8,
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
