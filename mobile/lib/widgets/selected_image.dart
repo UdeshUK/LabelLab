@@ -16,13 +16,12 @@ class SelectedImage extends StatelessWidget {
       child: image != null
           ? Image(
               image: FileImage(image),
-              width: width != null ? width : 240,
               height: height != null ? height : 240,
               fit: BoxFit.cover,
             )
           : Container(
-              width:  width != null ? width : 240,
-              height:  height != null ? height : 240,
+              width: width != null ? width : 240,
+              height: height != null ? height : 240,
               color: Colors.grey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
