@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile/screens/classify/classify_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -132,9 +133,10 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _showImagePicker(ImageSource source) async {
-    var image = await ImagePicker.pickImage(source: source);
-
-    // image;
+  void _showImagePicker(ImageSource source) {
+    ImagePicker.pickImage(source: source).then((image) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => ClassifyScreen(image)));
+    }).catchError((err) => print(err));
   }
 }
