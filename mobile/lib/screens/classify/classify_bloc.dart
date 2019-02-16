@@ -19,7 +19,6 @@ class ClassifyBloc extends BaseBloc {
     _classifyController.add(_currentState);
     api.uploadImage(image).then((Response res) {
       _currentState.loading = false;
-      print(res.data['size']);
       _currentState.result = Classification.fromJson(res.data);
       _classifyController.add(_currentState);
     }).catchError((err) {
