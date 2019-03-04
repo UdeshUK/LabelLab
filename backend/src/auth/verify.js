@@ -1,5 +1,6 @@
 const User = require('../model/User')
 const config = require('../../app.config')
+const jwt = require('jsonwebtoken')
 
 // Username & email check handler
 checkDuplicateUserNameOrEmail = (req, res, next) => {
@@ -54,7 +55,9 @@ decodeToken = (req, res, next) => {
         message: 'Fail to Authentication. Error -> ' + err
       });
     }
-    req.userId = decoded.id;
+    req.uid = decoded.id;
+    if (!req.uid)
+      return res.status(401).send({ message: 'Invalid user.' });
     next();
   });
 }

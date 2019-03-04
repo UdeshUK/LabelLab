@@ -31,7 +31,7 @@ router.post('/signup', [verify.checkDuplicateUserNameOrEmail], function (req, re
       res.status(200).send({ message: "Success, User created!" });
     }).catch(err => {
       console.log(err);
-      res.status(500).send({ message: 'Document creation error.' });
+      res.status(500).send({ message: 'User creation error.' });
     });
   } else {
     res.status(400).send({ message: 'Missing fields' });
