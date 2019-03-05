@@ -13,7 +13,7 @@ branches:
 deploy:
   provider: heroku
   api_key:
-    secure: ccb2a4c0-747d-4788-823e-d4363d0133ef
+    secure: b6ba4d43-8063-4e53-bef7-db86a17d62dd
   app: labellab-mobile
   on:
     repo: UdeshUK/LabelLab
