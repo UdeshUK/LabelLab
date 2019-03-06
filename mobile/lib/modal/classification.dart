@@ -1,19 +1,18 @@
 class Classification {
-  int height;
-  int width;
-  String type;
-  String imageUrl;
-  // Removed in the new API
-  // int size;
+  String id;
+  String path;
+  int size;
+  String classifiedBy;
+  String timestamp;
 
-  Classification(this.height, this.width, this.type, this.imageUrl);
+  Classification(
+      this.id, this.path, this.size, this.classifiedBy, this.timestamp);
 
   Classification.fromJson(Map<String, dynamic> json) {
-    this.height = json["height"];
-    this.width = json["width"];
-    this.type = json["type"];
-    this.imageUrl = json["image_url"];
-    // Removed in the new API
-    // this.size = json["size"];
+    this.id = json["_id"];
+    this.path = json["path"];
+    this.size = json["size"];
+    this.classifiedBy = json["classifiedBy"];
+    this.timestamp = json["timestamp"];
   }
 }
