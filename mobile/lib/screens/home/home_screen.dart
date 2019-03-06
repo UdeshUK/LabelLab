@@ -4,6 +4,7 @@ import 'package:mobile/bloc/bloc_provider.dart';
 import 'package:mobile/screens/classify/classify_screen.dart';
 import 'package:mobile/screens/home/history_sliver_delegate.dart';
 import 'package:mobile/screens/home/home_bloc.dart';
+import 'package:mobile/screens/login/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeBloc _bloc;
@@ -28,6 +29,19 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.exit_to_app),
+                  onPressed: () {
+                    _bloc.logout().then((_) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    });
+                  },
+                )
+              ],
               backgroundColor: Colors.blue[400],
               expandedHeight: 420.0,
               flexibleSpace: FlexibleSpaceBar(
