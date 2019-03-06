@@ -1,25 +1,25 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:mobile/bloc/base_bloc.dart';
+import 'package:mobile/bloc/bloc_state.dart';
 import 'package:mobile/modal/classification.dart';
-import 'package:mobile/screens/classify/classify_bloc_state.dart';
 
 class ClassifyBloc extends BaseBloc {
-  ClassifyBlocState _currentState = ClassifyBlocState.empty();
+  BlocState<Classification> _currentState = BlocState<Classification>.empty();
 
-  final _classifyController = StreamController<ClassifyBlocState>();
-  Stream<ClassifyBlocState> get classifyStream => _classifyController.stream;
+  final _classifyController = StreamController<BlocState<Classification>>();
+  Stream<BlocState<Classification>> get classifyStream =>
+      _classifyController.stream;
 
   classifyImage(File image) {
     _currentState.loading = true;
     _currentState.error = null;
     _currentState.result = null;
     _classifyController.add(_currentState);
-    api.uploadImage(image).then((Response res) {
+    repository.classify(image).then((Classification res) {
       _currentState.loading = false;
-      _currentState.result = Classification.fromJson(res.data);
+      _currentState.result = res;
       _classifyController.add(_currentState);
     }).catchError((err) {
       _currentState.loading = false;

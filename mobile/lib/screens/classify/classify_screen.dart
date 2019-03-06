@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/bloc_provider.dart';
+import 'package:mobile/bloc/bloc_state.dart';
 import 'package:mobile/modal/classification.dart';
 import 'package:mobile/screens/classify/classify_bloc.dart';
-import 'package:mobile/screens/classify/classify_bloc_state.dart';
 import 'package:mobile/widgets/loading_progress.dart';
 import 'package:mobile/widgets/selected_image.dart';
 
@@ -48,9 +48,10 @@ class ClassifyScreen extends StatelessWidget {
             ),
             StreamBuilder(
               stream: _bloc.classifyStream,
-              initialData: ClassifyBlocState.empty(),
-              builder: (context, AsyncSnapshot<ClassifyBlocState> snapshot) {
-                final ClassifyBlocState state = snapshot.data;
+              initialData: BlocState<Classification>.empty(),
+              builder:
+                  (context, AsyncSnapshot<BlocState<Classification>> snapshot) {
+                final BlocState<Classification> state = snapshot.data;
                 if (state.loading) {
                   return Column(
                     children: <Widget>[
@@ -124,7 +125,7 @@ class ClassifyScreen extends StatelessWidget {
   }
 
   Widget _buildResult(Classification result) {
-    // double kBytes = result.size / (1024.0);
+    double kBytes = result.size / (1024.0);
 
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
@@ -136,21 +137,15 @@ class ClassifyScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ListTile(
-              title: Text("Height"),
+              title: Text("Size"),
               // subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
-              subtitle: Text(result.height.toString()),
+              subtitle: Text(kBytes.toString() + " kB"),
               dense: true,
             ),
             ListTile(
-              title: Text("Width"),
+              title: Text("Classified on"),
               // subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
-              subtitle: Text(result.width.toString()),
-              dense: true,
-            ),
-            ListTile(
-              title: Text("Type"),
-              // subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
-              subtitle: Text(result.type.toString()),
+              subtitle: Text(result.timestamp),
               dense: true,
             ),
           ],
