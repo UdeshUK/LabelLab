@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const uuid = require('uuid')
+const path = require('path')
 const mv = require('mv')
 const verify = require('../auth/verify')
 const Classification = require('../model/Classification')
@@ -33,7 +34,7 @@ router.post('/image', [verify.decodeToken], function (req, res) {
 
     if (req.files.image) {
       let uuidKey = uuid()
-      let staticPath = __dirname.join('/../../classifications/')
+      let staticPath = path.join(__dirname, '/../../classifications/')
       let publicLocation = 'images/' + uuidKey
       let newLocation = staticPath + publicLocation
 
