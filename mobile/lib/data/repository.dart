@@ -58,9 +58,25 @@ class Repository {
   }
 
   Future<Classification> classify(File image) {
-    return _api
-        .uploadImage(image)
-        .then((res) => Classification.fromJson(res.data));
+    if (_accessToken != null) {
+      return _api
+          .uploadImage(_accessToken, image)
+          .then((res) => Classification.fromJson(res.data));
+    } else {
+      throw Exception("No access token");
+    }
+  }
+
+  Future<List<Classification>> history() {
+    if (_accessToken != null) {
+      return _api
+          .getHistory(_accessToken)
+          .then((res) => (res.data as List).map((i) {
+                return Classification.fromJson(i);
+              }).toList());
+    } else {
+      throw Exception("No access token");
+    }
   }
 
   // Singleton
@@ -70,5 +86,5 @@ class Repository {
     return _repository;
   }
 
-  Repository._internal() : _api = Api() {}
+  Repository._internal() : _api = Api();
 }
