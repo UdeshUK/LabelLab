@@ -39,6 +39,7 @@ router.post('/image', [verify.decodeToken], function (req, res) {
       let newLocation = staticPath + publicLocation
 
       var image = req.files.image
+      const size = image.data.length
 
       mv(image.tempFilePath, newLocation, function (err) {
         if (err) {
@@ -47,7 +48,7 @@ router.post('/image', [verify.decodeToken], function (req, res) {
 
         const classification = new Classification({
           path: uuidKey,
-          size: image.data.length,
+          size: size,
           classifiedBy: req.uid,
           timestamp: Date.now()
         })
