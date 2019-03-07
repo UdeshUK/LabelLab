@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/bloc/bloc_provider.dart';
+import 'package:mobile/modal/classification.dart';
 import 'package:mobile/screens/classify/classify_screen.dart';
 import 'package:mobile/screens/home/history_sliver_delegate.dart';
 import 'package:mobile/screens/home/home_bloc.dart';
+import 'package:mobile/screens/login/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeBloc _bloc;
@@ -28,6 +31,19 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.exit_to_app),
+                  onPressed: () {
+                    _bloc.logout().then((_) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    });
+                  },
+                )
+              ],
               backgroundColor: Colors.blue[400],
               expandedHeight: 420.0,
               flexibleSpace: FlexibleSpaceBar(
@@ -83,18 +99,44 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Card(
-                  margin: EdgeInsets.all(0),
-                  shape:
-                      RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                  child: ListTile(
-                    title: Text("Dummy Item"),
-                    dense: true,
-                  ),
-                ),
-              ]),
+            FutureBuilder(
+              future: _bloc.history(),
+              builder: (context, AsyncSnapshot<List<Classification>> snapshot) {
+                if (snapshot.hasData) {
+                  return SliverList(
+                    delegate: SliverChildListDelegate(
+                      snapshot.data.map((classification) {
+                        double kBytes = classification.size / (1024.0);
+                        return Card(
+                          margin: EdgeInsets.all(0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero),
+                          child: ListTile(
+                            title: Text(kBytes.toStringAsFixed(2) + " kB"),
+                            subtitle: Text(DateFormat('yyyy-MM-dd kk:mm')
+                                .format(classification.timestamp)),
+                            dense: true,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                } else {
+                  return SliverList(
+                    delegate: SliverChildListDelegate([
+                      Card(
+                        margin: EdgeInsets.all(0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero),
+                        child: ListTile(
+                          title: Text("Nothing here"),
+                          dense: true,
+                        ),
+                      )
+                    ]),
+                  );
+                }
+              },
             ),
           ],
         ),

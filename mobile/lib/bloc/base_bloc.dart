@@ -1,7 +1,7 @@
-import 'package:mobile/data/api.dart';
+import 'package:mobile/data/repository.dart';
 
 abstract class BaseBloc {
-  final API api = API();
+  final Repository repository = Repository();
 
   void onDispose();
 }
