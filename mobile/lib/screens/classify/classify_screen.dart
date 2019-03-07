@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/bloc_provider.dart';
@@ -138,14 +139,13 @@ class ClassifyScreen extends StatelessWidget {
           children: <Widget>[
             ListTile(
               title: Text("Size"),
-              // subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
-              subtitle: Text(kBytes.toString() + " kB"),
+              subtitle: Text(kBytes.toStringAsFixed(2) + " kB"),
               dense: true,
             ),
             ListTile(
               title: Text("Classified on"),
-              // subtitle: Text(kBytes.roundToDouble().toString() + " kB"),
-              subtitle: Text(result.timestamp),
+              subtitle:
+                  Text(DateFormat('yyyy-MM-dd kk:mm').format(result.timestamp)),
               dense: true,
             ),
           ],
