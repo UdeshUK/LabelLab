@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class BlocState<T> {
   bool loading;
-  DioError error;
+  dynamic error;
   T result;
 
   BlocState(this.loading, this.error, this.result);
