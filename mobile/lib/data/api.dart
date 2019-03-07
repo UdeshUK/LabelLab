@@ -15,10 +15,10 @@ class Api {
   Future<Response> signUp(
       String name, String username, String password, String email) async {
     return _dio.post(API_SIGN_UP, data: {
-      name: name,
-      username: username,
-      password: password,
-      email: email
+      "name": name,
+      "username": username,
+      "password": password,
+      "email": email
     });
   }
 
@@ -27,17 +27,32 @@ class Api {
         .post(API_SIGN_IN, data: {"username": username, "password": password});
   }
 
-  Future<Response> uploadImage(File image) async {
+  Future<Response> uploadImage(String accessToken, File image) async {
     final String uuid = Uuid().v1();
+
+    print(accessToken);
+    Map<String, String> headers = {"x-access-token": accessToken};
 
     FormData formData = new FormData.from({
       "image": new UploadFileInfo(image, uuid),
     });
-    return _dio.post(API_CLASSIFY, data: formData);
+
+    return _dio.post(API_CLASSIFY,
+        options: Options(
+            headers: headers,
+            contentType:
+                ContentType.parse("application/x-www-form-urlencoded")),
+        data: formData);
   }
 
-  Future<Response> getHistory() async {
-    return _dio.get(API_HISTORY);
+  Future<Response> getHistory(String accessToken) async {
+    print(accessToken);
+    Map<String, String> headers = {"x-access-token": accessToken};
+
+    return _dio.get(
+      API_HISTORY,
+      options: Options(headers: headers),
+    );
   }
 
   // Singleton
