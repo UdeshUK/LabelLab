@@ -6,6 +6,7 @@ import 'package:mobile/screens/home/home_screen.dart';
 import 'package:mobile/screens/login/login_bloc.dart';
 import 'package:mobile/screens/signup/signup_screen.dart';
 import 'package:mobile/widgets/loading_progress.dart';
+import 'package:mobile/widgets/text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 24),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: _buildForm(context),
             ),
           ],
@@ -112,18 +113,20 @@ class LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginForm(BuildContext context) {
     return Column(
       children: <Widget>[
-        TextFormField(
-          decoration: new InputDecoration(
-              labelText: 'Username', hintText: 'Enter your username'),
+        LabelTextField(
+          labelText: 'Username',
+          hintText: 'Enter your username',
           validator: this._validateUsername,
           onSaved: (String value) {
             this._data.username = value;
           },
         ),
-        TextFormField(
-          obscureText: true, // Use secure text for passwords.
-          decoration: new InputDecoration(
-              labelText: 'Password', hintText: 'Enter your password'),
+        SizedBox(
+          height: 16,
+        ),
+        LabelTextField(
+          labelText: 'Password',
+          hintText: 'Enter your password',
           validator: this._validatePassword,
           onSaved: (String value) {
             this._data.password = value;
@@ -134,28 +137,43 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginButton(BuildContext context) {
-    return Container(
-      child: new RaisedButton(
-        child: new Text(
-          'Login',
-          style: new TextStyle(color: Colors.white),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: RaisedButton(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              child: Text(
+                'Login',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline
+                    .copyWith(color: Colors.white),
+              ),
+              onPressed: this.submit,
+              color: Colors.blue,
+            ),
+          ),
         ),
-        onPressed: this.submit,
-        color: Colors.blue,
-      ),
-      margin: new EdgeInsets.only(top: 20.0),
+      ],
     );
   }
 
   Widget _buildSignupButton(BuildContext context) {
-    return FlatButton(
-      child: Text("or Signup"),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SignupScreen()),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: FlatButton(
+        child: Text("or Signup"),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignupScreen()),
+          );
+        },
+      ),
     );
   }
 
