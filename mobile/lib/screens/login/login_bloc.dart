@@ -19,7 +19,7 @@ class LoginBloc extends BaseBloc {
     _currentState.result = false;
     _loginController.add(_currentState);
     repository.loginSilent().then((bool res) {
-      if (res) {
+      if (res != null && res) {
         _loginSuccessController.add(res);
       } else {
         _currentState.loading = false;

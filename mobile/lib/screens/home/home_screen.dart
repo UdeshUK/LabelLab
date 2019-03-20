@@ -35,12 +35,7 @@ class HomeScreen extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.exit_to_app),
                   onPressed: () {
-                    _bloc.logout().then((_) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                    });
+                    _showLogoutConfirmation(context);
                   },
                 )
               ],
@@ -202,5 +197,36 @@ class HomeScreen extends StatelessWidget {
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => ClassifyScreen(image)));
     }).catchError((err) => print(err));
+  }
+
+  void _showLogoutConfirmation(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout'),
+          content: Text('Are you sure?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _bloc.logout().then((_) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
