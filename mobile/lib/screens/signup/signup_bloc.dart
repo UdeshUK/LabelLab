@@ -21,7 +21,7 @@ class SignupBloc extends BaseBloc {
     repository.signUp(user).then((bool res) {
       print("signUp res");
       print(res);
-      if (res) {
+      if (res != null && res) {
         _signupSuccessController.add(true);
       } else {
         _currentState.loading = false;
