@@ -46,19 +46,18 @@ router.post('/image', [verify.decodeToken], function (req, res) {
           return res.status(500).send(err)
         }
 
-
         imageSize(newLocation, (err, dimensions) => {
           if (err) {
             return res.status(500).send(err)
           }
 
-          var width = 0;
-          var height = 0;
-          var type = 'undefined';
+          var width = 0
+          var height = 0
+          var type = 'undefined'
 
-          width = dimensions.width;
-          height = dimensions.height;
-          type = dimensions.type;
+          width = dimensions.width
+          height = dimensions.height
+          type = dimensions.type
 
           const classification = new Classification({
             path: uuidKey,
@@ -76,7 +75,6 @@ router.post('/image', [verify.decodeToken], function (req, res) {
             return res.status(500).send({ message: 'Image classification error.' })
           })
         })
-
       })
     } else {
       return res.status(400).send({ message: 'Bad request, doesn\'t contain image.' })
