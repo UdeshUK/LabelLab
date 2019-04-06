@@ -101,18 +101,7 @@ class HomeScreen extends StatelessWidget {
                   return SliverList(
                     delegate: SliverChildListDelegate(
                       snapshot.data.map((classification) {
-                        double kBytes = classification.size / (1024.0);
-                        return Card(
-                          margin: EdgeInsets.all(0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero),
-                          child: ListTile(
-                            title: Text(kBytes.toStringAsFixed(2) + " kB"),
-                            subtitle: Text(DateFormat('yyyy-MM-dd kk:mm')
-                                .format(classification.timestamp)),
-                            dense: true,
-                          ),
-                        );
+                        return _buildHistoryItem(context, classification);
                       }).toList(),
                     ),
                   );
@@ -188,6 +177,25 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       elevation: 1,
       onPressed: () => _showImagePicker(context, ImageSource.gallery),
+    );
+  }
+
+  Widget _buildHistoryItem(
+      BuildContext context, Classification classification) {
+    return Card(
+      margin: EdgeInsets.all(0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      child: ListTile(
+        title: Text("Width: " +
+            classification.width.toString() +
+            "px, Height: " +
+            classification.height.toString() +
+            "px, Type: " +
+            classification.type),
+        subtitle: Text(
+            DateFormat('yyyy-MM-dd kk:mm').format(classification.timestamp)),
+        dense: true,
+      ),
     );
   }
 

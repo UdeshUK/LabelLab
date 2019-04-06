@@ -105,7 +105,7 @@ class ClassifyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildError(DioError err) {
+  Widget _buildError(dynamic err) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Card(
@@ -116,7 +116,7 @@ class ClassifyScreen extends StatelessWidget {
         color: Colors.red[800],
         child: ListTile(
           title: Text(
-            err.type == DioErrorType.DEFAULT ? "No Connection" : "Error",
+            err is DioError ? err.type == DioErrorType.DEFAULT ? "No Connection" : "Error" : "Unknown error",
             style: TextStyle(color: Colors.white),
           ),
           dense: true,
@@ -126,8 +126,6 @@ class ClassifyScreen extends StatelessWidget {
   }
 
   Widget _buildResult(Classification result) {
-    double kBytes = result.size / (1024.0);
-
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       child: Card(
@@ -138,8 +136,18 @@ class ClassifyScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ListTile(
-              title: Text("Size"),
-              subtitle: Text(kBytes.toStringAsFixed(2) + " kB"),
+              title: Text("Width"),
+              subtitle: Text(result.width.toString() + " px"),
+              dense: true,
+            ),
+            ListTile(
+              title: Text("Height"),
+              subtitle: Text(result.height.toString() + " px"),
+              dense: true,
+            ),
+            ListTile(
+              title: Text("Type"),
+              subtitle: Text(result.type),
               dense: true,
             ),
             ListTile(
