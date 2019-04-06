@@ -5,6 +5,7 @@ const path = require('path')
 const mv = require('mv')
 const verify = require('../auth/verify')
 const Classification = require('../model/Classification')
+const imageSize = require('image-size')
 
 router.get('/', function (req, res, next) {
   res.send({
@@ -39,26 +40,43 @@ router.post('/image', [verify.decodeToken], function (req, res) {
       let newLocation = staticPath + publicLocation
 
       var image = req.files.image
-      const size = image.data.length
 
       mv(image.tempFilePath, newLocation, function (err) {
         if (err) {
           return res.status(500).send(err)
         }
 
-        const classification = new Classification({
-          path: uuidKey,
-          size: size,
-          classifiedBy: req.uid,
-          timestamp: Date.now()
+
+        imageSize(newLocation, (err, dimensions) => {
+          if (err) {
+            return res.status(500).send(err)
+          }
+
+          var width = 0;
+          var height = 0;
+          var type = 'undefined';
+
+          width = dimensions.width;
+          height = dimensions.height;
+          type = dimensions.type;
+
+          const classification = new Classification({
+            path: uuidKey,
+            width: width,
+            height: height,
+            type: type,
+            classifiedBy: req.uid,
+            timestamp: Date.now()
+          })
+
+          classification.save().then(newClassification => {
+            return res.status(200).send(newClassification)
+          }).catch(err => {
+            console.log(err)
+            return res.status(500).send({ message: 'Image classification error.' })
+          })
         })
 
-        classification.save().then(newClassification => {
-          return res.status(200).send(newClassification)
-        }).catch(err => {
-          console.log(err)
-          return res.status(500).send({ message: 'Image classification error.' })
-        })
       })
     } else {
       return res.status(400).send({ message: 'Bad request, doesn\'t contain image.' })
