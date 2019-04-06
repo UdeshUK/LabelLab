@@ -2,7 +2,9 @@ const mongoose = require('mongoose')
 
 const classificationSchema = mongoose.Schema({
   path: String,
-  size: String,
+  width: Number,
+  height: Number,
+  type: String,
   classifiedBy: String,
   timestamp: Date
 })
