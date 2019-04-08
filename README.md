@@ -17,6 +17,9 @@ to simulate the actual classification model.
 Project contains a [mobile](https://github.com/UdeshUK/LabelLab/tree/master/mobile) app which is implemented using Flutter 
 framework. And a [backend](https://github.com/UdeshUK/LabelLab/tree/master/backend) implemented with Node.js.
 
+![](static/first.png)
+![](static/second.png)
+
 ## How To Setup
 
 Please refer the READMEs of individual modules.
